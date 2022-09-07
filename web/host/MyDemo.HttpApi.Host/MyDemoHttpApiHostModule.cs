@@ -33,9 +33,12 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.VirtualFileSystem;
+using Jh.Abp.JhIdentity;
+using Jh.Abp.QuickComponents;
+using Jh.Abp.QuickComponents.Swagger;
+using Volo.Abp.Auditing;
 
 namespace MyDemo;
-
 [DependsOn(
     typeof(MyDemoApplicationModule),
     typeof(MyDemoEntityFrameworkCoreModule),
@@ -49,15 +52,17 @@ namespace MyDemo;
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreSerilogModule),
+    typeof(JhIdentityHttpApiClientModule),
+    typeof(AbpQuickComponentsModule),
     typeof(AbpSwashbuckleModule)
     )]
 public class MyDemoHttpApiHostModule : AbpModule
 {
-
+    private IConfiguration configuration;
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
-        var configuration = context.Services.GetConfiguration();
+        configuration = context.Services.GetConfiguration();
 
         Configure<AbpDbContextOptions>(options =>
         {
@@ -80,18 +85,15 @@ public class MyDemoHttpApiHostModule : AbpModule
             });
         }
 
-        context.Services.AddAbpSwaggerGenWithOAuth(
-            configuration["AuthServer:Authority"],
-            new Dictionary<string, string>
-            {
-                {"MyDemo", "MyDemo API"}
-            },
-            options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo {Title = "MyDemo API", Version = "v1"});
-                options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
-            });
+        context.Services.AddApiVersion();
+        if (Convert.ToBoolean(configuration["App:SwaggerUI"]))
+        {
+            var Audience = configuration.GetValue<string>("AuthServer:ApiName");
+            context.Services.AddJhAbpSwagger(configuration,
+               new Dictionary<string, string>{
+               {Audience, $"{Audience} API"}
+               }, contractsType: typeof(JhIdentityApplicationContractsModule));
+        }
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -154,6 +156,11 @@ public class MyDemoHttpApiHostModule : AbpModule
                     .AllowCredentials();
             });
         });
+
+        Configure<AbpAuditingOptions>(options =>
+        {
+            options.ApplicationName = "MyDemo";
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -180,18 +187,20 @@ public class MyDemoHttpApiHostModule : AbpModule
         {
             app.UseMultiTenancy();
         }
-        app.UseAbpRequestLocalization();
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.RequestCultureProviders.RemoveAll(provider => provider is Microsoft.AspNetCore.Localization.AcceptLanguageHeaderRequestCultureProvider);
+        });
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        if (Convert.ToBoolean(configuration["App:SwaggerUI"]))
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support APP API");
-
-            var configuration = context.GetConfiguration();
-            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            options.OAuthScopes("MyDemo");
-        });
+            app.UseSwagger();
+            app.UseAbpSwaggerUI(options =>
+            {
+                options.UseJhSwaggerUiConfig(configuration, app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Options.IOptions<SwaggerApiOptions>>().Value);
+            });
+        }
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();

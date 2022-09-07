@@ -64,6 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Index.cshtml" />
+    <None Include="Pages\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Pages\**\*.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

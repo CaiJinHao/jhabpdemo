@@ -19,10 +19,32 @@ namespace MyDemo.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Jh.Abp.JhIdentity.OrganizationUnitExtension", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LeaderId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("用户ID");
+
+                    b.Property<int?>("LeaderType")
+                        .HasColumnType("int")
+                        .HasComment("领导类型");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaderId");
+
+                    b.ToTable("AbpOrganizationUnitExtensions", (string)null);
+
+                    b.HasComment("组织扩展表");
+                });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {

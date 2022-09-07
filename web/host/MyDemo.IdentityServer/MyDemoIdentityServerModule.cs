@@ -50,12 +50,20 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.Threading;
 using Volo.Abp.UI.Navigation.Urls;
+using Jh.Abp.IdentityServer;
+using Jh.Abp.JhIdentity;
+using Jh.Abp.JhIdentity.EntityFrameworkCore;
+using Jh.Abp.QuickComponents;
+using Jh.Abp.JhIdentity.Localization;
+using Volo.Abp.TenantManagement.Localization;
+using Jh.Abp.QuickComponents.Swagger;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace MyDemo;
-
 [DependsOn(
-    typeof(AbpAccountWebIdentityServerModule),
-    typeof(AbpAccountApplicationModule),
+typeof(AbpAccountWebIdentityServerModule),
+typeof(AbpAccountApplicationModule),
     typeof(AbpAccountHttpApiModule),
     typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
     typeof(AbpAspNetCoreMvcModule),
@@ -84,27 +92,65 @@ namespace MyDemo;
     typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
     typeof(MyDemoApplicationContractsModule),
     typeof(AbpAspNetCoreSerilogModule),
+    typeof(JhAbpIdentityServerModule),
+    typeof(JhIdentityApplicationModule),
+    typeof(JhIdentityEntityFrameworkCoreModule),
+    typeof(JhIdentityHttpApiModule),
+    typeof(AbpQuickComponentsModule),
     typeof(AbpSwashbuckleModule)
     )]
 public class MyDemoIdentityServerModule : AbpModule
 {
+    private Microsoft.Extensions.Configuration.IConfiguration configuration;
+
+    private void ConfigureLocalizationOptions()
+    {
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources
+                .Get<JhIdentityResource>()
+                .AddBaseTypes(typeof(Volo.Abp.Identity.Localization.IdentityResource));
+
+            options.Resources
+                .Get<AbpTenantManagementResource>()
+                .AddVirtualJson("/Localization/JhAbpExtensions")//使用虚拟路径加载，并覆盖资源得键值对
+               ;
+
+            options.Resources
+                .Get<Volo.Abp.Identity.Localization.IdentityResource>()
+                .AddVirtualJson("/Localization/JhIdentity")
+                .AddVirtualJson("/Localization/JhAbpExtensions")//使用虚拟路径加载，并覆盖资源得键值对
+               ;
+
+            options.Resources
+                .Get<Volo.Abp.SettingManagement.Localization.AbpSettingManagementResource>()
+                .AddVirtualJson("/Localization/JhIdentity")
+                .AddVirtualJson("/Localization/JhAbpExtensions")//使用虚拟路径加载，并覆盖资源得键值对
+                ;
+        });
+    }
+
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
-        var configuration = context.Services.GetConfiguration();
-
+        configuration = context.Services.GetConfiguration();
+        JhIdentityConsts.InitPassword = configuration["App:InitPassword"];
+        ConfigureLocalizationOptions();
         Configure<AbpDbContextOptions>(options =>
         {
             options.UseSqlServer();
         });
 
-        context.Services.AddAbpSwaggerGen(
-            options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "MyDemo API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
-            });
+        context.Services.AddApiVersion();
+        if (Convert.ToBoolean(configuration["App:SwaggerUI"]))
+        {
+            var Audience = configuration.GetValue<string>("AuthServer:ApiName");
+            context.Services.AddJhAbpSwagger(configuration,
+               new Dictionary<string, string>{
+               {Audience, $"{Audience} API"}
+               }, contractsType: typeof(JhIdentityApplicationContractsModule));
+        }
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -133,6 +179,7 @@ public class MyDemoIdentityServerModule : AbpModule
         {
                 //options.IsEnabledForGetRequests = true;
                 options.ApplicationName = "AuthServer";
+            options.IsEnabledForAnonymousUsers = false;
         });
 
         Configure<AppUrlOptions>(options =>
@@ -219,14 +266,20 @@ public class MyDemoIdentityServerModule : AbpModule
             app.UseMultiTenancy();
         }
 
-        app.UseAbpRequestLocalization();
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.RequestCultureProviders.RemoveAll(provider => provider is Microsoft.AspNetCore.Localization.AcceptLanguageHeaderRequestCultureProvider);
+        });
         app.UseIdentityServer();
         app.UseAuthorization();
-        app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        if (Convert.ToBoolean(configuration["App:SwaggerUI"]))
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support APP API");
-        });
+            app.UseSwagger();
+            app.UseAbpSwaggerUI(options =>
+            {
+                options.UseJhSwaggerUiConfig(configuration, app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Options.IOptions<SwaggerApiOptions>>().Value);
+            });
+        }
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
@@ -236,11 +289,13 @@ public class MyDemoIdentityServerModule : AbpModule
 
     private async Task SeedData(ApplicationInitializationContext context)
     {
-        using (var scope = context.ServiceProvider.CreateScope())
-        {
-            await scope.ServiceProvider
-                .GetRequiredService<IDataSeeder>()
-                .SeedAsync();
-        }
+        using var scope = context.ServiceProvider.CreateScope();
+        var data = scope.ServiceProvider
+                    .GetRequiredService<IDataSeeder>();
+        var dataSeedContext = new DataSeedContext()
+            .WithProperty("AdminEmail", "531003539@qq.com")
+            .WithProperty("AdminPassword", "JinHao@123");
+
+        await data.SeedAsync(dataSeedContext);
     }
 }

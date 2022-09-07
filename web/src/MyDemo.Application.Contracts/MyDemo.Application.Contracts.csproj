@@ -5,7 +5,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>MyDemo</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>MyDemo.Application.Contracts.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MyDemo.Application.Contracts.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="MyDemo.Application.Contracts.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Jh.Abp.Application.Contracts" Version="5.3.4" />

@@ -9,6 +9,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace MyDemo;
 
 [DependsOn(
+    typeof(Jh.Abp.Domain.Shared.JhAbpExtensionsDomainSharedModule),
     typeof(AbpValidationModule)
 )]
 public class MyDemoDomainSharedModule : AbpModule
@@ -25,6 +26,7 @@ public class MyDemoDomainSharedModule : AbpModule
             options.Resources
                 .Add<MyDemoResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource))
+                .AddBaseTypes(typeof(Jh.Abp.Domain.Localization.JhAbpExtensionsResource))
                 .AddVirtualJson("/Localization/MyDemo");
         });
 
