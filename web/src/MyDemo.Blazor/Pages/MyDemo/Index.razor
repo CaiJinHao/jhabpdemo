@@ -1,0 +1,8 @@
+@page "/MyDemo"
+@using Microsoft.Extensions.Localization
+@using global::MyDemo.Localization
+@inject IStringLocalizer<MyDemoResource> L
+@{
+}
+<h1>MyDemo</h1>
+<p>@L["SamplePageMessage"]</p>

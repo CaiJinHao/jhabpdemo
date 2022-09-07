@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MyDemo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jh.Abp.Domain" Version="5.3.4" />
+    <PackageReference Include="Jh.SourceGenerator.Common" Version="5.3.4" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="5.3.4" />
+    <ProjectReference Include="..\MyDemo.Domain.Shared\MyDemo.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

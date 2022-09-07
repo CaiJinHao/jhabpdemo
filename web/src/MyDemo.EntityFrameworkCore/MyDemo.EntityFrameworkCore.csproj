@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>MyDemo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jh.Abp.EntityFrameworkCore" Version="5.3.4" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="5.3.4" />
+    <ProjectReference Include="..\MyDemo.Domain\MyDemo.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
