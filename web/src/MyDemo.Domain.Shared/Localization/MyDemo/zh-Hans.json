@@ -2,6 +2,7 @@
   "culture": "zh-Hans",
   "texts": {
     "MyAccount": "我的账户",
-    "SamplePageMessage": "MyDemo模块的示例页面"
+    "SamplePageMessage": "MyDemo模块的示例页面",
+    "Permission:Categorys": "管理"
   }
 }

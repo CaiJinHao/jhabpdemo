@@ -4,5 +4,70 @@
         <name>MyDemo.Application.Contracts</name>
     </assembly>
     <members>
+        <member name="T:MyDemo.CategoryCreateInputDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryCreateInputDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryCreateInputDto.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:MyDemo.CategoryDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryDto.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:MyDemo.CategoryRetrieveInputDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryRetrieveInputDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryRetrieveInputDto.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryRetrieveInputDto.Deleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="T:MyDemo.CategoryUpdateInputDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryUpdateInputDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:MyDemo.CategoryUpdateInputDto.Description">
+            <summary>
+            
+            </summary>
+        </member>
     </members>
 </doc>
