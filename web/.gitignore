@@ -259,4 +259,4 @@ host/MyDemo.Web.Unified/Logs/logs.txt
 host/MyDemo.Blazor.Server.Host/Logs/logs.txt
 
 # Use abp install-libs to restore.
-**/wwwroot/libs/*
+# **/wwwroot/libs/*
