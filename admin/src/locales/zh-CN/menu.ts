@@ -62,4 +62,7 @@ export default {
   'menu.systemConfig.Tenant': '租户管理',
   'menu.settings': '系统设置',
   'menu.flow': '流程编辑器',
+
+  'menu.demo': 'Demo',
+  'menu.demo.Category': '类别管理',
 };

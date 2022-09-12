@@ -3,6 +3,9 @@
   "texts": {
     "MyAccount": "我的账户",
     "SamplePageMessage": "MyDemo模块的示例页面",
-    "Permission:Categorys": "管理"
+    "Permission:Categorys": "类别管理",
+    "DisplayName:Category": "类别",
+    "DisplayName:Category:Name": "名称",
+    "DisplayName:Category:Description": "描述"
   }
 }

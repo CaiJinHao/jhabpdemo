@@ -5,12 +5,12 @@ const configEnv = {
   clientId: 'MyDemo_App',
 };
 
-configEnv.api = 'https://localhost:44385/';
+configEnv.api = 'https://localhost:44362/';
 configEnv.identityApi = 'https://localhost:44355/';
 configEnv.clientId = 'MyDemo_App';
 
 /**全局变量定义 */
-// window.EquipmentManagement_API = configEnv.api;
+window.Demo_API = configEnv.api;
 //@ts-ignore
 window.Identity_API = configEnv.identityApi; //'/identity/';
 //@ts-ignore

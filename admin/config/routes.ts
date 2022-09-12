@@ -1,4 +1,6 @@
 ﻿import systemConfig from './RoutesConfig/system.config';
+import demoConfig from './RoutesConfig/demo.config';
+
 export default [
   // {
   //   path: '/user',
@@ -47,6 +49,12 @@ export default [
     name: 'systemConfig',
     icon: 'table',
     routes: systemConfig,
+  },
+  {
+    path: '/demo',
+    name: 'demo',
+    icon: 'table',
+    routes: demoConfig,
   },
   {
     path: '/',

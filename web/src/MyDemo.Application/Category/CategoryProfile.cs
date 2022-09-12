@@ -8,12 +8,8 @@ namespace MyDemo
 		{
 		CreateMap<Category,CategoryDto>();
 		CreateMap<CategoryCreateInputDto, Category>().IgnoreFullAuditedObjectProperties().Ignore(a => a.Id).Ignore(a => a.TenantId)
-.Ignore(a => a.Name)
-.Ignore(a => a.Description)
 ;
 		CreateMap<CategoryUpdateInputDto, Category>().IgnoreFullAuditedObjectProperties().Ignore(a => a.Id).Ignore(a => a.TenantId)
-.Ignore(a => a.Name)
-.Ignore(a => a.Description)
 ;
 		}
 	}

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MyDemo.Application\MyDemo.Application.csproj" />
+    <ProjectReference Include="..\..\src\MyDemo.HttpApi\MyDemo.HttpApi.csproj" />
     <ProjectReference Include="..\MyDemo.Domain.Tests\MyDemo.Domain.Tests.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
   </ItemGroup>

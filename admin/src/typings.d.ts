@@ -29,3 +29,4 @@ declare const Identity_API: string;
 declare const LOGIN_PATH: string;
 /**授权登录地址 */
 declare const AuthorizationInfoStorageKey: string;
+declare const Demo_API: string;

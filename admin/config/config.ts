@@ -52,7 +52,7 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  // proxy: proxy[REACT_APP_ENV || 'dev'],//没有使用代理
+  // proxy: proxy[REACT_APP_ENV || 'dev'],//没有使用代理，使用的api
   manifest: {
     basePath: '/',
   },
