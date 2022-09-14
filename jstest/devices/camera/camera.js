@@ -5,9 +5,12 @@ function Camera() {
 
   return {
     IsPlay: false,
-    IsStop: false,
+    mediaStream:{},
     openMedia: function (options) {
       let _the = this;
+      if(_the.IsPlay){
+        return;
+      }
       //请求媒体选项
       let requestMediaOptions = {
         video: true,
@@ -16,15 +19,12 @@ function Camera() {
       navigator.mediaDevices
         .getUserMedia(requestMediaOptions)
         .then(function (mediaStream) {
-          if (_the.IsStop) {
-            mediaStream.getTracks().forEach(function (item) {
-              item.stop();
-            });
-          }
+          console.log('openMedia');
+          _the.mediaStream = mediaStream;
           video.srcObject = mediaStream;
-          video.onloadedmetadata = function (e) {
-            video.play();
-          };
+          // video.onloadedmetadata = function (e) {
+          //   video.play();
+          // };
           _the.IsPlay = true;
         })
         .catch(function (error) {
@@ -63,13 +63,18 @@ function Camera() {
     },
     closeMedia: function () {
       let _the = this;
-      _the.IsStop = true;
-      console.log('closeMedia');
+      if (_the.IsPlay) {
+        console.log('closeMedia');
+        _the.mediaStream.getTracks().forEach(function (item) {
+          item.stop();
+        });
+      }
+      _the.IsPlay = false;
     },
     takePhoto: function () {
       let _the = this;
       if (!_the.IsPlay) {
-        throw "没有播放的视频";
+        throw "没有打开摄像头";
       }
       let width = video.videoWidth;
       let height = video.videoHeight;
@@ -84,10 +89,9 @@ function Camera() {
 }
 
 let camera = new Camera();
-camera.openMedia();
+// camera.openMedia();
 
 document.querySelector("#btn_capture").addEventListener("click", function (e) {
-  console.log("拍照");
   try {
     var data = camera.takePhoto();
     console.log(data);
@@ -101,4 +105,12 @@ window.addEventListener("beforeunload", function (e) {
   e.preventDefault();
   camera.closeMedia();
   e.returnValue='';//提示是否刷新
+});
+
+document.querySelector('#btn_open').addEventListener('click',function(e){
+  camera.openMedia();
+});
+
+document.querySelector('#btn_close').addEventListener('click',function(e){
+  camera.closeMedia();
 });
