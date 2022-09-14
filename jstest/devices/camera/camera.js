@@ -78,7 +78,7 @@ function Camera() {
       canvas.height = height;
       let ctx = canvas.getContext("2d");
       ctx.drawImage(video, 0, 0, width, height);
-      return canvas.toBlob(); //使用FormData，上传blob对象
+      return canvas.toDataURL();
     },
   };
 }
@@ -89,7 +89,9 @@ camera.openMedia();
 document.querySelector("#btn_capture").addEventListener("click", function (e) {
   console.log("拍照");
   try {
-    camera.takePhoto();
+    var data = camera.takePhoto();
+    console.log(data);
+    document.querySelector("#capture_img").src = data;
   } catch (error) {
     console.log(error);
   }
