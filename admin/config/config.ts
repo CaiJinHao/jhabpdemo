@@ -11,6 +11,7 @@ import routes from './routes';
 export default defineConfig({
   devServer: {
     port: 4200,
+    https: true,
   },
   hash: true,
   antd: {},

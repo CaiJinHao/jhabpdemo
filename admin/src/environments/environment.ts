@@ -1,12 +1,13 @@
 const baseUrl = window.origin;
 const configEnv = {
-  api: 'https://localhost:6903/',
-  identityApi: 'https://localhost:6201/',
+  api: 'https://localhost:44362/',
+  identityApi: 'https://localhost:44355/',
   clientId: 'MyDemo_App',
 };
 
-configEnv.api = 'https://localhost:44362/';
-configEnv.identityApi = 'https://localhost:44355/';
+//appsettings.json  AuthServer:Authority=https://demo.6mv6.com:6302
+configEnv.api = 'https://wx.6mv6.com:6301/';
+configEnv.identityApi = 'https://wx.6mv6.com:6302/';
 configEnv.clientId = 'MyDemo_App';
 
 /**全局变量定义 */
