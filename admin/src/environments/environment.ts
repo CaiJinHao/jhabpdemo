@@ -6,8 +6,8 @@ const configEnv = {
 };
 
 //appsettings.json  AuthServer:Authority=https://demo.6mv6.com:6302
-configEnv.api = 'https://wx.6mv6.com:6301/';
-configEnv.identityApi = 'https://wx.6mv6.com:6302/';
+configEnv.api = 'https://jhabps.6mv6.com:6301/';
+configEnv.identityApi = 'https://jhabps.6mv6.com:6302/';
 configEnv.clientId = 'MyDemo_App';
 
 /**全局变量定义 */
