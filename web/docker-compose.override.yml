@@ -18,7 +18,9 @@ services:
 
   identity-server:
     environment:
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=hbmyyEVU
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/8540925_jhabps.6mv6.com_iis/8540925_jhabps.6mv6.com.pfx
       - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - Redis__Configuration=redis
@@ -28,7 +30,9 @@ services:
 
   my-demo:
     environment:
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=hbmyyEVU
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/8540925_jhabps.6mv6.com_iis/8540925_jhabps.6mv6.com.pfx
       - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_ModuleDb;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - ConnectionStrings__AbpSettingManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - ConnectionStrings__AbpPermissionManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false

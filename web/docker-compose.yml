@@ -16,6 +16,7 @@ services:
       - redis      
     volumes:
       - G:\volumes\ids4Log:/app/Logs
+      - G:\docker_volumns\https:/https
   
   my-demo:
     build:
@@ -27,3 +28,4 @@ services:
       - redis      
     volumes:
       - G:\volumes\hostLog:/app/Logs
+      - G:\docker_volumns\https:/https

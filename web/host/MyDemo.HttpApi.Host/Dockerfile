@@ -27,4 +27,6 @@ RUN dotnet publish "MyDemo.HttpApi.Host.csproj" -c Release -o /app/publish /p:Us
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+CMD [ "dotnet dev-certs https --trust" ]
 ENTRYPOINT ["dotnet", "MyDemo.HttpApi.Host.dll"]
