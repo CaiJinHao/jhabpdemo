@@ -4,22 +4,23 @@ services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server
     volumes:
-      - dbdata:/var/opt/mssql
+      - G:\volumes\dbdata\mssql\:/var/opt/mssql
   
   identity-server:
     build:
-      context: ../../
-      dockerfile: templates/service/host/IdentityServerHost/Dockerfile
+      # context: ../../
+      dockerfile: ./host/MyDemo.IdentityServer/Dockerfile
     depends_on:
       - sqlserver      
+    volumes:
+      - G:\volumes\ids4Log:/app/Logs
   
   my-demo:
     build:
-      context: ../../
-      dockerfile: templates/service/host/MyDemo.Host/Dockerfile
+      # context: ../../
+      dockerfile: ./host/MyDemo.HttpApi.Host/Dockerfile
     depends_on:
       - sqlserver
       - identity-server
-
-volumes:
-  dbdata:
+    volumes:
+      - G:\volumes\hostLog:/app/Logs

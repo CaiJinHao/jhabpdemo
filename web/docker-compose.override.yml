@@ -3,27 +3,39 @@ version: '3.4'
 services:
   sqlserver:
     environment:
-      - SA_PASSWORD=yourStrong(!)Password
+      - SA_PASSWORD=Jh@123456
       - ACCEPT_EULA=Y
     ports:
-      - "51599:1433"
+      - "1433:1433"
+    restart: always
+    networks:
+      - jhabpdemo
 
   identity-server:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
-      - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
+      - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
     ports:
-      - "51600:80"
-
+      - "6302:80"
+    restart: always
+    networks:
+      - jhabpdemo
   my-demo:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_ModuleDb;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
-      - ConnectionStrings__AbpSettingManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
-      - ConnectionStrings__AbpPermissionManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
-      - ConnectionStrings__AbpAuditLogging=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
-      - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=yourStrong(!)Password;Integrated Security=false
+      - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_ModuleDb;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - ConnectionStrings__AbpSettingManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - ConnectionStrings__AbpPermissionManagement=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - ConnectionStrings__AbpAuditLogging=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - AuthServer__Authority=http://identity-server
     ports:
-      - "51601:80"
+      - "6301:80"
+    restart: always
+    networks:
+      - jhabpdemo
+networks:
+  jhabpdemo:
+    driver: bridge
+    name: jhabpdemo
