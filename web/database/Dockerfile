@@ -1,13 +1,14 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
+# FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 COPY . .
 
-WORKDIR /host/MyDemo.IdentityServer
-RUN dotnet restore
-RUN dotnet ef migrations script -i -o migrations-IdentityServerHost.sql
+# WORKDIR /host/MyDemo.IdentityServer
+# RUN dotnet restore
+# RUN dotnet ef migrations script -i -o migrations-IdentityServerHost.sql
 
-WORKDIR /host/MyDemo.HttpApi.Host
-RUN dotnet restore
-RUN dotnet ef migrations script -i -o migrations-MyDemo.sql
+# WORKDIR /host/MyDemo.HttpApi.Host
+# RUN dotnet restore
+# RUN dotnet ef migrations script -i -o migrations-MyDemo.sql
 
 FROM mcr.microsoft.com/mssql-tools AS final
 WORKDIR /

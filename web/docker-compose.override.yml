@@ -5,8 +5,7 @@ services:
     ports:
       - "6379:6379"
     restart: always
-    networks:
-      - jhabpdemo
+
 
   sqlserver:
     environment:
@@ -15,8 +14,7 @@ services:
     ports:
       - "1433:1433"
     restart: always
-    networks:
-      - jhabpdemo
+
 
   identity-server:
     environment:
@@ -27,8 +25,7 @@ services:
     ports:
       - "6302:80"
     restart: always
-    networks:
-      - jhabpdemo
+
   my-demo:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
@@ -42,9 +39,4 @@ services:
     ports:
       - "6301:80"
     restart: always
-    networks:
-      - jhabpdemo
-networks:
-  jhabpdemo:
-    driver: bridge
-    name: jhabpdemo
+  
