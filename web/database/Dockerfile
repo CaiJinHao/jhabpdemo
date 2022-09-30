@@ -11,8 +11,8 @@ RUN dotnet ef migrations script -i -o migrations-MyDemo.sql
 
 FROM mcr.microsoft.com/mssql-tools AS final
 WORKDIR /src
-COPY --from=build /templates/service/host/IdentityServerHost/migrations-IdentityServerHost.sql migrations-IdentityServerHost.sql
-COPY --from=build /templates/service/host/MyDemo.Host/migrations-MyDemo.sql migrations-MyDemo.sql
+COPY --from=build ./host/MyDemo.IdentityServer/migrations-IdentityServerHost.sql migrations-IdentityServerHost.sql
+COPY --from=build ./host/MyDemo.HttpApi.Host/migrations-MyDemo.sql migrations-MyDemo.sql
 COPY --from=build /templates/service/database/entrypoint.sh .
 RUN /bin/bash -c "sed -i $'s/\r$//' entrypoint.sh"
 RUN chmod +x ./entrypoint.sh

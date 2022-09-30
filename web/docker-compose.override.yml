@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  redis:
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - jhabpdemo
+
   sqlserver:
     environment:
       - SA_PASSWORD=Jh@123456
@@ -16,6 +23,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__Default=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
+      - Redis__Configuration=redis
     ports:
       - "6302:80"
     restart: always
@@ -30,6 +38,7 @@ services:
       - ConnectionStrings__AbpAuditLogging=Server=sqlserver;Database=MyDemo_Identity;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - AuthServer__Authority=http://identity-server
+      - Redis__Configuration=redis
     ports:
       - "6301:80"
     restart: always

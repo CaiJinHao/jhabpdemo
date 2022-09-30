@@ -1,10 +1,11 @@
 version: '3.4'
 
 services:
+  redis:
+    image: redis
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server
-    volumes:
-      - G:\volumes\dbdata\mssql\:/var/opt/mssql
   
   identity-server:
     build:
@@ -12,6 +13,7 @@ services:
       dockerfile: ./host/MyDemo.IdentityServer/Dockerfile
     depends_on:
       - sqlserver      
+      - redis      
     volumes:
       - G:\volumes\ids4Log:/app/Logs
   
@@ -22,5 +24,6 @@ services:
     depends_on:
       - sqlserver
       - identity-server
+      - redis      
     volumes:
       - G:\volumes\hostLog:/app/Logs

@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - SA_PASSWORD=Jh@123456
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    restart: always
+    networks:
+      - jhabpdemo
+networks:
+  jhabpdemo:
+    driver: bridge
+    name: jhabpdemo
