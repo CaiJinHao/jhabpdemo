@@ -25,7 +25,7 @@ services:
       - ConnectionStrings__SqlServerCache=Server=sqlserver;Database=MyDemo_Cache;Trusted_Connection=True;User=sa;Password=Jh@123456;Integrated Security=false
       - Redis__Configuration=redis
     ports:
-      - "6302:80"
+      - "6302:443"
     restart: always
 
   my-demo:
@@ -41,6 +41,6 @@ services:
       - AuthServer__Authority=http://identity-server
       - Redis__Configuration=redis
     ports:
-      - "6301:80"
+      - "6301:443"
     restart: always
   
