@@ -6,6 +6,17 @@ services:
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server
+
+  migrations:
+    build:
+      # context: ../../
+      dockerfile: ./database/Dockerfile
+    depends_on:
+      - sqlserver
+    environment:
+      - IdentityServer_DB=MyDemo_Identity
+      - MyDemo_DB=MyDemo_ModuleDb
+      - SA_PASSWORD=Jh@123456
   
   identity-server:
     build:
