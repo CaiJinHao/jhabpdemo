@@ -1,5 +1,11 @@
 # 使用步骤
 
+## Docker
+
+``` shell
+ docker compose -f .\docker-compose.yml -f .\docker-compose.migrations.yml -f .\docker-compose.override.yml up -d
+```
+
 ## 环境准备
 
 * MSSQLSERVER
