@@ -6,7 +6,9 @@
  docker compose -f .\docker-compose.yml -f .\docker-compose.migrations.yml -f .\docker-compose.override.yml up -d
 ```
 
-## 环境准备
+## Localhost
+
+### 环境准备
 
 * MSSQLSERVER
 
@@ -22,7 +24,7 @@
   docker run -d --name redis -p 6379:6379 -v --restart always -t redis
 ```
 
-## 启动项目
+### 启动项目
 
 ```shell
 cd .\web\host\MyDemo.IdentityServer\ | dotnet ef database update | dotnet run
