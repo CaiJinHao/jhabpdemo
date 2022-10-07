@@ -21,7 +21,7 @@
 
 ```shell
   docker pull redis
-  docker run -d --name redis -p 6379:6379 -v --restart always -t redis
+  docker run -d --name redis -p 6379:6379 --restart always -t redis
 ```
 
 ### 启动项目
